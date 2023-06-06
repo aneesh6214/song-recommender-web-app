@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Song Similarity</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="/">Song Similarity</a>
+    </nav>
+    <div class="container">
+        <h1 class="mt-5" id="Song">Song Similarity</h1>
+        <form action="/submit" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control" name="song" placeholder="Enter a song">
+            </div>
+            <button type="submit" class="btn btn-primary btn-submit">Submit</button>
+        </form>
+        <h3>Result:</h3>
+        {% for result in results %}
+        <div class="result">
+            <p>{{ result | safe }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- BOOTSTRAP -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
