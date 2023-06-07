@@ -1,5 +1,4 @@
-import openai
-import os
+import openai, os
 from dotenv import load_dotenv
 
 # load api key
@@ -7,21 +6,24 @@ load_dotenv()
 openai.api_key = os.environ.get('API_KEY')
 
 song = input("Pick a song: ")
-prompt = (f"""Provide the name of a song that sounds similar to the given song, "{song},"\
-              and belongs to a similar genre. Do not change the name
-              of the original song in your output Format your response as follows: 
-              
-              [song - artist], [similar song - artist]
+messages=[
+        {"role": "system", "content": "Your entire purpose is to help users find songs."},
+        {"role": "user", "content": "Give a song that sounds similar to borderline by tame\
+         impala. The song must be similar in sound and genre."},
+        {"role": "assistant", "content": "Borderline - Tame Impala, Elephant - Tame Impala"},
+        {"role": "user", "content": "That ouput format was perfect. Please keep future outputs\
+         in the exact same format you used in your previous response: [original song - artist],\
+         [similar song - artist]"},
+        {"role": "system", "content": "I will keep the outputs in your requested format: \
+         [original song - artist], [similar song - artist]"},
+        {"role": "user", "content": f"Give me a song that sounds similar to {song}."}
+    ]
 
-              For example:
-              Input: Borderline by Tame Impala
-              Output: Borderline - Tame Impala, Elephant - Tame Impala
-        """)
-
-response = openai.Completion.create(
-    engine="text-davinci-001",
-    prompt=prompt,
-    max_tokens=50)
+response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=messages
+    )
 
 print(response)
-print(response["choices"][0]["text"])
+print(response["choices"][0]["message"]["content"])
+
